@@ -5,7 +5,7 @@ import IpTable from "@/components/ip-table"
 import HighlightedIpTable from "@/components/highlighted-ip-table"
 import FakeAccountsTable from "@/components/fake-accounts-table"
 import IpRelationsTable from "@/components/ip-relations-table"
-import RouteCaptureAnimation from "@/components/route-capture-animation"
+import AddressesLocatedBanner from "@/components/addresses-located-banner"
 import IpDetector from "@/components/ip-detector"
 import FakeAccountTicker from "@/components/fake-account-ticker"
 import VazvetInfoBanner from "@/components/vazvet-info-banner"
@@ -199,6 +199,8 @@ export default function Home() {
       isTopRelated: true,
       lastAccess: "12 de abril de 2025, 14:32",
       accessCount: 187,
+      captureDate: "12 de abril de 2025",
+      captureTime: "15:47",
     },
     {
       id: 2,
@@ -350,7 +352,27 @@ export default function Home() {
         <FakeAccountTicker />
 
         {/* Componente de animação de captura de rota */}
-        <RouteCaptureAnimation />
+        <AddressesLocatedBanner
+          relatedSites={[
+            {
+              site: "https://lojalocal.com/nexgard/37608012000103",
+              ips: ["18.172.185.21", "18.238.217.75", "18.238.217.35", "18.238.217.82"],
+              description: "Site de venda de produtos veterinários com múltiplos IPs relacionados",
+            },
+            {
+              site: "https://chavaohospitalveterinario.com.br/",
+              ips: ["93.127.191.239"],
+              description: "Hospital veterinário com IP suspeito",
+            },
+            {
+              site: "https://popularvazvet.com/",
+              ips: ["185.230.63.107"],
+              description: "Site com atividades suspeitas",
+            },
+          ]}
+          monitoredIps={highlightedIpData}
+          capturedAddresses={addressesData}
+        />
 
         {/* Banner de informações sobre Vazvet.com */}
         <VazvetInfoBanner />
@@ -382,11 +404,29 @@ export default function Home() {
 
         <FakeAccountsTable data={fakeAccountsData} />
 
-        <h2 className="text-xl font-bold mt-10 mb-4 text-purple-400">Endereços Físicos Relacionados</h2>
+        <h2 className="text-xl font-bold mt-10 mb-4 text-purple-400 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-green-400"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          Endereços Físicos Capturados
+        </h2>
 
         <p className="mb-4">
-          Os endereços abaixo foram identificados como locais físicos relacionados aos IPs monitorados. O endereço
-          destacado apresenta a maior quantidade de acessos e atividades suspeitas.
+          O endereço abaixo foi <span className="text-green-400 font-bold">capturado com sucesso</span> e identificado
+          como local físico relacionado aos IPs monitorados. A localização apresenta alta concentração de atividades
+          suspeitas e está diretamente vinculada aos IPs principais.
         </p>
 
         <RelatedAddresses addresses={addressesData} />

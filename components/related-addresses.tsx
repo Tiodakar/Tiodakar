@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface Address {
   id: number
@@ -14,6 +14,8 @@ interface Address {
   isTopRelated?: boolean
   lastAccess?: string
   accessCount?: number
+  captureDate?: string
+  captureTime?: string
 }
 
 interface RelatedAddressesProps {
@@ -22,6 +24,19 @@ interface RelatedAddressesProps {
 
 export default function RelatedAddresses({ addresses }: RelatedAddressesProps) {
   const [expandedAddress, setExpandedAddress] = useState<number | null>(null)
+  const [showCaptureAnimation, setShowCaptureAnimation] = useState(false)
+
+  useEffect(() => {
+    // Mostrar animação de captura ao carregar o componente
+    setShowCaptureAnimation(true)
+
+    // Ocultar a animação após 5 segundos
+    const timer = setTimeout(() => {
+      setShowCaptureAnimation(false)
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const toggleAddressDetails = (id: number) => {
     if (expandedAddress === id) {
@@ -39,31 +54,54 @@ export default function RelatedAddresses({ addresses }: RelatedAddressesProps) {
   })
 
   return (
-    <div className="bg-gray-900 p-4 rounded-lg mb-6 border border-purple-900/50">
-      <h2 className="text-xl font-bold text-purple-400 mb-4">Endereços Relacionados aos IPs</h2>
+    <div className="bg-gray-900 p-4 rounded-lg mb-6 border border-purple-900/50 relative">
+      {/* Overlay de animação de captura */}
+      {showCaptureAnimation && (
+        <div className="absolute inset-0 bg-purple-900/80 flex flex-col items-center justify-center z-10 rounded-lg animate-pulse">
+          <div className="text-3xl font-bold text-white mb-4">ENDEREÇO CAPTURADO</div>
+          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+          <div className="text-lg text-white">Processando informações...</div>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-purple-400">Endereços Físicos Capturados</h2>
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-green-400 text-sm font-medium">Captura bem-sucedida</span>
+        </div>
+      </div>
 
       <div className="space-y-3">
         {sortedAddresses.map((address) => (
           <div
             key={address.id}
             className={`${
-              address.isTopRelated ? "bg-purple-900/30 border border-purple-500" : "bg-gray-800"
+              address.isTopRelated
+                ? "bg-purple-900/30 border-2 border-purple-500 relative overflow-hidden"
+                : "bg-gray-800"
             } p-3 rounded-lg`}
           >
-            <div className="flex items-center justify-between">
+            {address.isTopRelated && (
+              <div className="absolute top-0 right-0 bg-purple-600 text-white text-xs px-3 py-1 rounded-bl">
+                CAPTURADO
+              </div>
+            )}
+
+            <div className="flex items-center justify-between mt-2">
               <button
                 onClick={() => toggleAddressDetails(address.id)}
                 className="flex items-center gap-2 text-left w-full"
               >
                 <div
-                  className={`h-2 w-2 ${address.isTopRelated ? "bg-purple-400" : "bg-purple-500"} rounded-full`}
+                  className={`h-3 w-3 ${address.isTopRelated ? "bg-green-500 animate-pulse" : "bg-purple-500"} rounded-full`}
                 ></div>
-                <span className="text-white font-medium">
+                <span className={`${address.isTopRelated ? "text-white font-bold" : "text-white font-medium"}`}>
                   {address.street}, {address.number} - {address.neighborhood}
                 </span>
                 {address.isTopRelated && (
-                  <span className="ml-2 bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full">
-                    Top Relacionado
+                  <span className="ml-2 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">
+                    Localização Principal
                   </span>
                 )}
               </button>
@@ -92,6 +130,34 @@ export default function RelatedAddresses({ addresses }: RelatedAddressesProps) {
                 Ver no Mapa
               </a>
             </div>
+
+            {address.isTopRelated && (
+              <div className="mt-2 bg-purple-900/20 p-2 rounded-lg border border-purple-500/50">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-green-400"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span className="text-green-400">Endereço capturado com sucesso</span>
+                  </div>
+                  <span className="text-purple-300">
+                    {address.captureDate || "12 de abril de 2025"} às {address.captureTime || "15:47"}
+                  </span>
+                </div>
+              </div>
+            )}
 
             {expandedAddress === address.id && (
               <div className="mt-3 pl-4 border-l-2 border-purple-500">
