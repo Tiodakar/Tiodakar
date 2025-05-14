@@ -1,10 +1,4 @@
 "use client"
-
-import { useState } from "react"
-import IpTable from "@/components/ip-table"
-import HighlightedIpTable from "@/components/highlighted-ip-table"
-import FakeAccountsTable from "@/components/fake-accounts-table"
-import IpRelationsTable from "@/components/ip-relations-table"
 import AddressesLocatedBanner from "@/components/addresses-located-banner"
 import IpDetector from "@/components/ip-detector"
 import FakeAccountTicker from "@/components/fake-account-ticker"
@@ -14,95 +8,7 @@ import MonitoringDashboard from "@/components/monitoring-dashboard"
 import RelatedAddresses from "@/components/related-addresses"
 
 export default function Home() {
-  // Estado para armazenar os dados da primeira tabela
-  const [ipData, setIpData] = useState([
-    {
-      id: 1,
-      ip: "45.231.120.3",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 144,
-      updateTime: "11 de abril de 2025, 06:05",
-      hasWebsite: true,
-      website: "example.com/site1",
-    },
-    {
-      id: 2,
-      ip: "177.200.163.14",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 142,
-      updateTime: "11 de abril de 2025, 15:10",
-    },
-    {
-      id: 3,
-      ip: "187.108.128.3",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 39,
-      updateTime: "10 de abril de 2025, 03:13",
-      hasWebsite: true,
-      website: "example.com/site2",
-    },
-    {
-      id: 4,
-      ip: "138.204.78.179",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 38,
-      updateTime: "09 de abril de 2025, 05:58",
-    },
-    {
-      id: 5,
-      ip: "138.204.78.240",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 29,
-      updateTime: "09 de abril de 2025, 00:54",
-    },
-    {
-      id: 6,
-      ip: "45.231.120.114",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 26,
-      updateTime: "09 de abril de 2025, 06:05",
-    },
-    {
-      id: 7,
-      ip: "170.81.169.222",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 25,
-      updateTime: "09 de abril de 2025, 03:06",
-    },
-    {
-      id: 8,
-      ip: "177.99.224.131",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 12,
-      updateTime: "02 de abril de 2025, 16:50",
-    },
-    {
-      id: 9,
-      ip: "191.7.107.16",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 5,
-      updateTime: "26 de março de 2025, 01:51",
-    },
-    {
-      id: 10,
-      ip: "138.204.78.100",
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: 4,
-      updateTime: "23 de março de 2025, 16:38",
-    },
-  ])
-
-  // Dados da segunda tabela
+  // Dados da segunda tabela (mantidos para o popup de informações detalhadas)
   const highlightedIpData = [
     {
       ip: "45.231.120.3",
@@ -123,67 +29,6 @@ export default function Home() {
       observation: "Detectado em pontos de Wi-Fi abertos",
     },
   ]
-
-  // Dados da tabela de contas falsas (modificado para mostrar contagem de acessos)
-  const fakeAccountsData = [
-    {
-      ip: "108.179.193.8",
-      country: "Estados Unidos",
-      accessCount: 87,
-      relatedIps: ["45.231.120.3", "177.200.163.14"],
-      connectionType: "Conexão direta com múltiplos IPs",
-    },
-    {
-      ip: "93.127.191.239",
-      country: "Alemanha",
-      accessCount: 65,
-      relatedIps: ["138.204.78.179", "187.108.128.3"],
-      connectionType: "Acesso simultâneo com IPs brasileiros",
-    },
-    {
-      ip: "45.231.120.3",
-      country: "Brasil",
-      accessCount: 42,
-      relatedIps: ["108.179.193.8", "93.127.191.239"],
-      connectionType: "Conexão geral com todos os IPs",
-    },
-    {
-      ip: "177.200.163.14",
-      country: "Brasil",
-      accessCount: 29,
-      relatedIps: ["108.179.193.8"],
-      connectionType: "Conexão geral com todos os IPs",
-    },
-  ]
-
-  // Dados da tabela de relações de IPs
-  const ipRelationsData = [
-    {
-      mainIp: "45.231.120.3",
-      relatedIps: ["177.200.163.14", "138.204.78.179", "187.108.128.3", "138.204.78.240"],
-      rotativeIps: ["192.168.1.100", "192.168.1.101", "192.168.1.102", "186.227.207.191"],
-      localIps: [
-        {
-          ip: "10.0.0.1",
-          hasWebsite: true,
-          website: "example.com/local1",
-          connectedIps: ["185.230.63.171", "185.230.63.107", "185.230.63.186", "108.179.193.8", "93.127.191.239"],
-        },
-        {
-          ip: "10.0.0.2",
-          connectedIps: ["185.230.63.171", "185.230.63.107", "185.230.63.186", "108.179.193.8", "93.127.191.239"],
-        },
-        {
-          ip: "10.0.0.3",
-          hasWebsite: true,
-          website: "example.com/local3",
-          connectedIps: ["185.230.63.171", "185.230.63.107", "185.230.63.186", "108.179.193.8", "93.127.191.239"],
-        },
-      ],
-    },
-  ]
-
-  // Vamos atualizar a constante addressesData com os novos endereços solicitados
 
   // Substitua o array addressesData existente pelo seguinte:
   const addressesData = [
@@ -228,117 +73,10 @@ export default function Home() {
     },
   ]
 
-  // Gerar 200 nomes de contas falsas
-  const generateFakeAccounts = () => {
-    const prefixes = [
-      "user",
-      "profile",
-      "account",
-      "person",
-      "client",
-      "member",
-      "guest",
-      "visitor",
-      "customer",
-      "player",
-      "gamer",
-      "fan",
-      "follower",
-      "friend",
-      "contact",
-      "buddy",
-      "mate",
-      "pal",
-      "partner",
-      "associate",
-    ]
-    const names = [
-      "john",
-      "mary",
-      "alex",
-      "sam",
-      "chris",
-      "pat",
-      "jordan",
-      "taylor",
-      "casey",
-      "jamie",
-      "robin",
-      "morgan",
-      "riley",
-      "avery",
-      "quinn",
-      "dakota",
-      "skyler",
-      "reese",
-      "finley",
-      "emerson",
-    ]
-    const suffixes = [
-      "123",
-      "456",
-      "789",
-      "2023",
-      "2024",
-      "2025",
-      "_real",
-      "_official",
-      "_original",
-      "_authentic",
-      "_genuine",
-      "_legit",
-      "_verified",
-      "_true",
-      "_actual",
-      "_valid",
-      "_active",
-      "_online",
-      "_web",
-      "_net",
-    ]
-
-    const accounts = []
-
-    for (let i = 0; i < 200; i++) {
-      const prefix = prefixes[Math.floor(Math.random() * prefixes.length)]
-      const name = names[Math.floor(Math.random() * names.length)]
-      const suffix = suffixes[Math.floor(Math.random() * suffixes.length)]
-
-      accounts.push(`${prefix}_${name}${suffix}`)
-    }
-
-    return accounts
-  }
-
-  const fakeAccountsList = generateFakeAccounts()
-
-  // Função para adicionar um novo IP à tabela
+  // Função para adicionar um novo IP à tabela (mantida para o IpDetector)
   const handleNewIpDetected = (newIp: string) => {
-    const now = new Date()
-    const formattedDate = now.toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-
-    const newIpEntry = {
-      id: ipData.length + 1,
-      ip: newIp,
-      country: "Brasil",
-      city: "São Gonçalo",
-      totalNavigation: Math.floor(Math.random() * 20) + 1,
-      updateTime: formattedDate,
-      isNew: true,
-    }
-
-    setIpData((prev) => [...prev, newIpEntry])
-
-    // Remover a flag "isNew" após 10 segundos
-    setTimeout(() => {
-      setIpData((prev) => prev.map((item) => (item.ip === newIp ? { ...item, isNew: false } : item)))
-    }, 10000)
+    // Função mantida para o IpDetector, mas não faz nada agora que a tabela foi removida
+    console.log(`Novo IP detectado: ${newIp}`)
   }
 
   return (
@@ -351,7 +89,7 @@ export default function Home() {
         {/* Componente de ticker de contas falsas */}
         <FakeAccountTicker />
 
-        {/* Componente de animação de captura de rota */}
+        {/* Banner de endereços localizados */}
         <AddressesLocatedBanner
           relatedSites={[
             {
@@ -383,27 +121,7 @@ export default function Home() {
         {/* Detector de IP invisível */}
         <IpDetector onNewIpDetected={handleNewIpDetected} />
 
-        <IpTable data={ipData} />
-
-        <h2 className="text-xl font-bold mt-8 mb-4">IP com atividade específica em 2025</h2>
-
-        <p className="mb-4">
-          Durante as investigações realizadas em 2025, identificamos que determinados IPs apresentaram uma quantidade
-          elevada de acessos em um curto período. Abaixo, destacamos três desses IPs:
-        </p>
-
-        <HighlightedIpTable data={highlightedIpData} />
-
-        <h2 className="text-xl font-bold mt-8 mb-4 text-purple-400">Contas Falsas e Relacionamentos entre IPs</h2>
-
-        <p className="mb-4">
-          Identificamos que os IPs abaixo têm conexão geral com todos os IPs listados anteriormente. Foram detectados
-          múltiplos acessos a contas falsas a partir destes endereços, que têm relacionamento direto com IPs acessados
-          neste site.
-        </p>
-
-        <FakeAccountsTable data={fakeAccountsData} />
-
+        {/* Seção de endereços físicos capturados */}
         <h2 className="text-xl font-bold mt-10 mb-4 text-purple-400 flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -430,15 +148,6 @@ export default function Home() {
         </p>
 
         <RelatedAddresses addresses={addressesData} />
-
-        <h2 className="text-xl font-bold mt-10 mb-4 text-purple-400">Relações Detalhadas de IPs e Contas Deletadas</h2>
-
-        <p className="mb-4">
-          A tabela abaixo mostra a relação do IP principal com todos os IPs mencionados anteriormente, incluindo IPs
-          rotativos e locais. Cada IP local tem conexão com os 5 IPs específicos listados.
-        </p>
-
-        <IpRelationsTable data={ipRelationsData} fakeAccounts={fakeAccountsList} />
 
         {/* Dashboard de monitoramento */}
         <MonitoringDashboard />
